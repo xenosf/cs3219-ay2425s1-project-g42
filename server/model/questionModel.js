@@ -7,3 +7,5 @@ const questionSchema = mongoose.Schema({
     complexity: { type: String, required: true },
     link: { type: String, required: true },
 });
+
+export default mongoose.model("Question", questionSchema)
