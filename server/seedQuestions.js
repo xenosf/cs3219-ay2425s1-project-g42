@@ -1,8 +1,10 @@
 const Question = require("./model/questionModel");
 
 const seedQuestions = async () => {
-    await Question.deleteMany({});
-    await Question.insertMany(questionData);
+    const count = await Question.countDocuments({});
+    if (count == 0) {
+        await Question.insertMany(questionData);
+    }
 };
 
 module.exports = { seedQuestions };
