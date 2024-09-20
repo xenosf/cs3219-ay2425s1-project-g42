@@ -30,10 +30,52 @@ if (process.env.DB_CLOUD_URI) {
 //routes
 //app.use("/questions", questionsRoutes)
 
+// get all questions
 app.get("/questions", async (req, res) => {
     try {
         const questions = await Question.find({});
         res.status(200).json(questions);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// get by id
+app.get("/questions/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const question = await Question.findById(id);
+        res.status(200).json(question);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// get easy
+app.get("/questions/complexity/easy", async (req, res) => {
+    try {
+        const question = await Question.find({ complexity: { $eq: "Easy" } });
+        res.status(200).json(question);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// get medium
+app.get("/questions/complexity/medium", async (req, res) => {
+    try {
+        const question = await Question.find({ complexity: { $eq: "Medium" } });
+        res.status(200).json(question);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// get hard
+app.get("/questions/complexity/hard", async (req, res) => {
+    try {
+        const question = await Question.find({ complexity: { $eq: "Hard" } });
+        res.status(200).json(question);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

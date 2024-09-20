@@ -11,7 +11,7 @@ const questionData = [
     {
         title: "Reverse a String",
         description:
-            'Write a function that reverses a string. The input string is given as an array of characters. You must do this by modifying the input array in-place with O(1) extra memory. Example 1: Input: s = [""h"",""e"",""l"",""l"",""o""] Output: [""o"",""l"",""l"",""e"",""h""] Example 2: Input: s = [""H"",""a"",""n"",""n"",""a"",""h""] Output: [""h"",""a"",""n"",""n"",""a"",""H""] Constraints: 1 <= s.length <= 105 s[i] is a printable ascii character.',
+            'Write a function that reverses a string. The input string is given as an array of characters. You must do this by modifying the input array in-place with O(1) extra memory. Example 1: Input: s = ["h","e","l","l","o"] Output: ["o","l","l","e","h"] Example 2: Input: s = ["H","a","n","n","a","h"] Output: ["h","a","n","n","a","H"] Constraints: 1 <= s.length <= 105 s[i] is a printable ascii character.',
         categories: "Strings, Algorithms",
         complexity: "Easy",
         link: "https://leetcode.com/problems/reverse-string/",
@@ -89,7 +89,7 @@ const questionData = [
     {
         title: "Longest Common Subsequence",
         description:
-            'Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0. A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters. For example, ""ace"" is a subsequence of ""abcde"". A common subsequence of two strings is a subsequence that is common to both strings.',
+            'Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0. A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters. For example, "ace" is a subsequence of "abcde". A common subsequence of two strings is a subsequence that is common to both strings.',
         categories: "Strings, Algorithms",
         complexity: "Medium",
         link: "https://leetcode.com/problems/longest-common-subsequence/",
