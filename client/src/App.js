@@ -20,13 +20,13 @@ function App() {
         }
       }
       fetchQuestions()
-  },[questionList])
+  },[])
 
   let accordionList = [];
 
-  Object.entries(questionList).map((wholeQuestion, index) => {
+  Object.entries(questionList).map((wholeQuestion) => {
       let questionId = parseInt(wholeQuestion[0]) + 1;
-      accordionList.push(<Accordion>
+      accordionList.push(<Accordion key = {wholeQuestion[1]._id} >
         <AccordionSummary
           expandIcon={<ArrowDropDownIcon />}
           aria-controls="panel1-content"
