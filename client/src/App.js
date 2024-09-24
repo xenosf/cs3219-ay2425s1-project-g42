@@ -4,7 +4,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
 function App() {
