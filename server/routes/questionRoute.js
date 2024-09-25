@@ -53,4 +53,17 @@ router.get("/complexity/hard", async (req, res) => {
     }
 });
 
+// create question
+router.post("/add", async (req, res) => {
+    const newQuestion = new Question(req.body);
+
+    try {
+        await newQuestion.save();
+        // TODO: check question duplicate
+        res.status(200).json(newQuestion);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;
