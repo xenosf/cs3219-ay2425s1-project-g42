@@ -13,15 +13,16 @@ function App() {
   const [questionList, setQuestionList] = useState("");
   const [isShowForm, setIsShowForm] = useState(false); // false = main view page. true = new qn form
 
+  const fetchQuestions = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/questions");
+      setQuestionList(response.data);
+    } catch (error) {
+      console.error("Error fetching questions", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/questions");
-        setQuestionList(response.data);
-      } catch (error) {
-        console.error("Error fetching questions", error);
-      }
-    };
     fetchQuestions();
   }, []);
 
@@ -60,6 +61,10 @@ function App() {
 
   const handleTabChange = (event, newState) => {
     setIsShowForm(newState);
+    if (newState === false) {
+      // refresh view when switching to view tab
+      fetchQuestions();
+    }
   };
 
   return (
@@ -73,7 +78,11 @@ function App() {
           Add question
         </ToggleButton>
       </ToggleButtonGroup>
-      {isShowForm ? <AddQuestionForm goBack={() => setIsShowForm(false)} /> : <div>{accordionList}</div>}
+      {isShowForm ? (
+        <AddQuestionForm goBack={() => setIsShowForm(false)} />
+      ) : (
+        <div>{accordionList}</div>
+      )}
     </div>
   );
 }
