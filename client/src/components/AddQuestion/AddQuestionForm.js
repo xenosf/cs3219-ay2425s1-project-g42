@@ -13,7 +13,6 @@ import axios from "axios";
 
 function AddQuestionForm(props) {
   const [error, setError] = useState(null);
-  const [info, setInfo] = useState(null);
   const [newQuestion, setNewQuestion] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -41,15 +40,23 @@ function AddQuestionForm(props) {
       link,
     };
 
+    setError(null)
+    setNewQuestion(null)
+
     axios
       .post("http://localhost:8000/questions/add", qn)
       .then(function (response) {
-        console.log(response);
         setNewQuestion(response.data);
         resetFormFields();
       })
       .catch(function (error) {
-        setError(error.message);
+        if (error.response.status === 400) {
+          setError(error.response.data);
+        } else if (error.response.status === 500) {
+          setError("Internal Server Error")
+        } else {
+          setError(error.message)
+        }
       });
   };
 
