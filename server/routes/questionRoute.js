@@ -92,4 +92,20 @@ router.put("/:id", async(req, res) => {
     }
 })
 
+// delete question
+router.delete("/:id", async(req, res) => {
+    const{id} = req.params;
+
+    try {
+        const deletedQuestion = await Question.findByIdAndDelete(id);
+        if(!deletedQuestion) {
+            return res.status(404).json({message: "Question not found"});
+        }
+
+        res.status(200).json({ message: "Question deleted successfully"});
+    } catch (error) {
+        res.status(500).json({ message: error.message});
+    }
+})
+
 module.exports = router;
