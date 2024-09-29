@@ -12,12 +12,12 @@ import UpdateQuestionForm from "./components/UpdateQuestion/UpdateQuestionForm";
 
 function App() {
   const [questionList, setQuestionList] = useState("");
-  const [isShowForm, setIsShowForm] = useState(false); // false = main view page. true = new qn form
+  const [formType, setFormType] = useState("view"); // false = main view page. true = new qn form
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   const handleUpdateClick = (question) => {
     setSelectedQuestion(question); // Set the selected question to update
-    setIsShowForm(true); // Show the form for updating
+    setFormType("update"); // Show the form for updating
   };
 
   const fetchQuestions = async () => {
@@ -82,11 +82,13 @@ function App() {
   });
 
   const handleTabChange = (event, newState) => {
-    setIsShowForm(newState);
-    if (!newState) {
-      // refresh view when switching to view tab
+    if (newState === "view") {
+      // Ensure that we reset everything when going back to "View Questions"
+      setFormType("view");
       setSelectedQuestion(null);
-      fetchQuestions();
+      fetchQuestions(); // Reload questions when switching back to view
+    } else if (newState === "add") {
+      setFormType("add"); // Switch to "Add" form
     }
   };
 
@@ -99,32 +101,27 @@ function App() {
   return (
     <div className="App">
       <h1>PeerPrep</h1>
-      <ToggleButtonGroup value={isShowForm} exclusive onChange={handleTabChange} aria-label="tab">
-        <ToggleButton value={false} aria-label="view questions">
+      <ToggleButtonGroup value={formType} exclusive onChange={handleTabChange} aria-label="tab">
+        <ToggleButton value="view" aria-label="view questions">
           View questions
         </ToggleButton>
-        <ToggleButton value={true} aria-label="add new question">
+        <ToggleButton value="add" aria-label="add new question">
           Add question
         </ToggleButton>
       </ToggleButtonGroup>
-      {isShowForm ? (
-        selectedQuestion ? (
-          <UpdateQuestionForm
-            goBack={() => {
-              setIsShowForm(false);
-              setSelectedQuestion(null); // Clear selected question after update
-            }}
-            selectedQuestion={selectedQuestion}
-            onUpdateSuccess={(updatedQuestion) => {
-              setQuestionList(prevList => 
-                prevList.map(q => (q._id === updatedQuestion._id ? updatedQuestion : q))
-              );
-            }}
-            onDeleteSuccess={handleDeleteSuccess}
-          />
-        ) : (
-          <AddQuestionForm goBack={() => setIsShowForm(false)} />
-        )
+      {formType === "add" ? (
+        <AddQuestionForm goBack={() => setFormType("view")} />
+      ) : formType === "update" ? (
+        <UpdateQuestionForm
+          goBack={() => setFormType("view")}
+          selectedQuestion={selectedQuestion}
+          onUpdateSuccess={(updatedQuestion) => {
+            setQuestionList(prevList => 
+              prevList.map(q => (q._id === updatedQuestion._id ? updatedQuestion : q))
+            );
+          }}
+          onDeleteSuccess={handleDeleteSuccess}
+        />
       ) : (
         <div>{accordionList}</div>
       )}
