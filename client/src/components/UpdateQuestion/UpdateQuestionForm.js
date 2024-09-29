@@ -8,16 +8,18 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  Alert
 } from "@mui/material";
 import axios from "axios";
 
-function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess }) {
+function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess, onDeleteSuccess }) {
   const [error, setError] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [categories, setCategories] = useState("");
   const [complexity, setComplexity] = useState("Medium");
   const [link, setLink] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     if (selectedQuestion) {
@@ -47,24 +49,50 @@ function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess }) {
 
       // Call the onUpdateSuccess callback to update the parent state
       onUpdateSuccess(response.data);
+      setSuccessMessage("Question updated successfully!");
 
+      setTimeout(() => {
+        setSuccessMessage("");
+        goBack(); // Go back after message disappears
+      }, 3000); 
       // Go back to the list view
-      goBack();
+
     } catch (error) {
       console.error(error);
       setError("Failed to update the question");
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:8000/questions/${selectedQuestion._id}`);
+      
+      if (response.status === 200) {
+        onDeleteSuccess(selectedQuestion._id);
+        setSuccessMessage("Question deleted successfully!");
+
+        setTimeout(() => {
+          setSuccessMessage("");
+          goBack(); // Go back after message disappears
+        }, 3000); 
+      }
+    } catch (error) {
+      console.error(error);
+      setError("Failed to delete the question");
+    }
+  };
+
   return (
     <div className="UpdateQuestionForm">
-      <h2>Update Question</h2>
+      <h2>Update/Delete Question</h2>
       <div>
         {error && (
           <Typography align="center" color="error">
             {error}
           </Typography>
         )}
+
+        {successMessage && <Alert severity="success">{successMessage}</Alert>}
 
         <form onSubmit={handleSubmit}>
           <Stack spacing={2} sx={{ paddingX: 10 }}>
@@ -120,6 +148,14 @@ function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess }) {
             <Button variant="outlined" type="submit">
               Update Question
             </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={handleDelete}
+            >
+              Delete Question
+            </Button>
+
           </Stack>
         </form>
       </div>
