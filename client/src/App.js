@@ -13,12 +13,11 @@ import UpdateQuestionForm from "./components/UpdateQuestion/UpdateQuestionForm";
 function App() {
   const [questionList, setQuestionList] = useState("");
   const [isShowForm, setIsShowForm] = useState(false); // false = main view page. true = new qn form
-  const [isEditing, setIsEditing] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   const handleUpdateClick = (question) => {
     setSelectedQuestion(question); // Set the selected question to update
-    setIsEditing(true);  // Show the form for updating
+    setIsShowForm(true); // Show the form for updating
   };
 
   const fetchQuestions = async () => {
@@ -87,7 +86,6 @@ function App() {
     if (!newState) {
       // refresh view when switching to view tab
       setSelectedQuestion(null);
-      setIsEditing(false);
       fetchQuestions();
     }
   };
@@ -109,22 +107,24 @@ function App() {
           Add question
         </ToggleButton>
       </ToggleButtonGroup>
-      {isEditing ? (
-        <UpdateQuestionForm
-          goBack={() => {
-            setIsEditing(false);    // Exit editing mode
-            setSelectedQuestion(null); // Clear selected question after update
-          }}
-          selectedQuestion={selectedQuestion}
-          onUpdateSuccess={(updatedQuestion) => {
-            setQuestionList(prevList => 
-              prevList.map(q => (q._id === updatedQuestion._id ? updatedQuestion : q))
-            );
-          }}
-        />
-      ) : isShowForm ? (
-        <AddQuestionForm goBack={() => setIsShowForm(false)} />
-
+      {isShowForm ? (
+        selectedQuestion ? (
+          <UpdateQuestionForm
+            goBack={() => {
+              setIsShowForm(false);
+              setSelectedQuestion(null); // Clear selected question after update
+            }}
+            selectedQuestion={selectedQuestion}
+            onUpdateSuccess={(updatedQuestion) => {
+              setQuestionList(prevList => 
+                prevList.map(q => (q._id === updatedQuestion._id ? updatedQuestion : q))
+              );
+            }}
+            onDeleteSuccess={handleDeleteSuccess}
+          />
+        ) : (
+          <AddQuestionForm goBack={() => setIsShowForm(false)} />
+        )
       ) : (
         <div>{accordionList}</div>
       )}
