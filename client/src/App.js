@@ -56,9 +56,10 @@ function App() {
 
             <Button
               variant="outlined"
+              color="error"
               onClick={() => handleUpdateClick(wholeQuestion[1])}
             >
-              Update
+              Update/Delete
             </Button>
           </Stack>
         </AccordionSummary>
@@ -89,6 +90,12 @@ function App() {
     }
   };
 
+  const handleDeleteSuccess = (deletedQuestionId) => {
+    setQuestionList(prevList =>
+      prevList.filter(q => q._id !== deletedQuestionId)
+    );
+  };
+
   return (
     <div className="App">
       <h1>PeerPrep</h1>
@@ -113,6 +120,7 @@ function App() {
                 prevList.map(q => (q._id === updatedQuestion._id ? updatedQuestion : q))
               );
             }}
+            onDeleteSuccess={handleDeleteSuccess}
           />
         ) : (
           <AddQuestionForm goBack={() => setIsShowForm(false)} />
