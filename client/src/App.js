@@ -5,13 +5,20 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Typography from "@mui/material/Typography";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Button, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import axios from "axios";
 import AddQuestionForm from "./components/AddQuestion/AddQuestionForm";
+import UpdateQuestionForm from "./components/UpdateQuestion/UpdateQuestionForm"; 
 
 function App() {
   const [questionList, setQuestionList] = useState("");
   const [isShowForm, setIsShowForm] = useState(false); // false = main view page. true = new qn form
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+
+  const handleUpdateClick = (question) => {
+    setSelectedQuestion(question); // Set the selected question to update
+    setIsShowForm(true); // Show the form for updating
+  };
 
   const fetchQuestions = async () => {
     try {
@@ -37,9 +44,23 @@ function App() {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography>
-            {questionId}. {wholeQuestion[1].title}
-          </Typography>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography>
+              {questionId}. {wholeQuestion[1].title}
+            </Typography>
+
+            <Button
+              variant="outlined"
+              onClick={() => handleUpdateClick(wholeQuestion[1])}
+            >
+              Update
+            </Button>
+          </Stack>
         </AccordionSummary>
         <AccordionDetails>
           <Typography align="left">Description: {wholeQuestion[1].description}</Typography>
@@ -61,8 +82,9 @@ function App() {
 
   const handleTabChange = (event, newState) => {
     setIsShowForm(newState);
-    if (newState === false) {
+    if (!newState) {
       // refresh view when switching to view tab
+      setSelectedQuestion(null);
       fetchQuestions();
     }
   };
@@ -79,7 +101,22 @@ function App() {
         </ToggleButton>
       </ToggleButtonGroup>
       {isShowForm ? (
-        <AddQuestionForm goBack={() => setIsShowForm(false)} />
+        selectedQuestion ? (
+          <UpdateQuestionForm
+            goBack={() => {
+              setIsShowForm(false);
+              setSelectedQuestion(null); // Clear selected question after update
+            }}
+            selectedQuestion={selectedQuestion}
+            onUpdateSuccess={(updatedQuestion) => {
+              setQuestionList(prevList => 
+                prevList.map(q => (q._id === updatedQuestion._id ? updatedQuestion : q))
+              );
+            }}
+          />
+        ) : (
+          <AddQuestionForm goBack={() => setIsShowForm(false)} />
+        )
       ) : (
         <div>{accordionList}</div>
       )}
