@@ -12,12 +12,12 @@ import UpdateQuestionForm from "./components/UpdateQuestion/UpdateQuestionForm";
 
 function App() {
   const [questionList, setQuestionList] = useState("");
-  const [formType, setFormType] = useState("view"); // false = main view page. true = new qn form
+  const [formType, setFormType] = useState("view");
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   const handleUpdateClick = (question) => {
-    setSelectedQuestion(question); // Set the selected question to update
-    setFormType("update"); // Show the form for updating
+    setSelectedQuestion(question);
+    setFormType("update"); 
   };
 
   const fetchQuestions = async () => {
@@ -83,12 +83,11 @@ function App() {
 
   const handleTabChange = (event, newState) => {
     if (newState === "view") {
-      // Ensure that we reset everything when going back to "View Questions"
       setFormType("view");
       setSelectedQuestion(null);
-      fetchQuestions(); // Reload questions when switching back to view
+      fetchQuestions();
     } else if (newState === "add") {
-      setFormType("add"); // Switch to "Add" form
+      setFormType("add");
     }
   };
 
