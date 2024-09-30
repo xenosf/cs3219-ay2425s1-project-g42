@@ -47,15 +47,13 @@ function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess, onDelet
         updatedQuestion
       );
 
-      // Call the onUpdateSuccess callback to update the parent state
       onUpdateSuccess(response.data);
       setSuccessMessage("Question updated successfully!");
 
       setTimeout(() => {
         setSuccessMessage("");
-        goBack(); // Go back after message disappears
+        goBack();
       }, 3000); 
-      // Go back to the list view
 
     } catch (error) {
       console.error(error);
@@ -73,7 +71,7 @@ function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess, onDelet
 
         setTimeout(() => {
           setSuccessMessage("");
-          goBack(); // Go back after message disappears
+          goBack();
         }, 3000); 
       }
     } catch (error) {
