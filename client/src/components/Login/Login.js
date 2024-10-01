@@ -41,6 +41,28 @@ function Login() {
           </Typography>
         </Box>
       </Box>
+      <Box
+        sx={{
+          border: "1px solid red",
+          position: "relative",
+        }}
+      >
+        <Box
+          sx={{
+            zIndex: 1,
+          }}
+        >
+          <Background />
+        </Box>
+
+        <Box
+          sx={{
+            zIndex: 2,
+          }}
+        >
+          <Logo />
+        </Box>
+      </Box>
     </Container>
   );
 }
