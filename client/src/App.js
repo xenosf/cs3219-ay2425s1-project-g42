@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import Typography from "@mui/material/Typography";
 import { Button, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Typography from "@mui/material/Typography";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "./App.css";
 import AddQuestionForm from "./components/AddQuestion/AddQuestionForm";
-import UpdateQuestionForm from "./components/UpdateQuestion/UpdateQuestionForm"; 
+import UpdateQuestionForm from "./components/UpdateQuestion/UpdateQuestionForm";
 
 function App() {
   const [questionList, setQuestionList] = useState("");
@@ -17,7 +18,7 @@ function App() {
 
   const handleUpdateClick = (question) => {
     setSelectedQuestion(question);
-    setFormType("update"); 
+    setFormType("update");
   };
 
   const fetchQuestions = async () => {
@@ -64,7 +65,9 @@ function App() {
           </Stack>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography align="left">Description: {wholeQuestion[1].description}</Typography>
+          <Typography align="left">
+            Description: {wholeQuestion[1].description}
+          </Typography>
           <Typography align="left" color="secondary">
             Category: {wholeQuestion[1].categories}
           </Typography>
@@ -92,15 +95,23 @@ function App() {
   };
 
   const handleDeleteSuccess = (deletedQuestionId) => {
-    setQuestionList(prevList =>
-      prevList.filter(q => q._id !== deletedQuestionId)
+    setQuestionList((prevList) =>
+      prevList.filter((q) => q._id !== deletedQuestionId)
     );
   };
 
   return (
     <div className="App">
+      <Link to="/login">
+        <Button variant="contained">Login</Button>
+      </Link>
       <h1>PeerPrep</h1>
-      <ToggleButtonGroup value={formType} exclusive onChange={handleTabChange} aria-label="tab">
+      <ToggleButtonGroup
+        value={formType}
+        exclusive
+        onChange={handleTabChange}
+        aria-label="tab"
+      >
         <ToggleButton value="view" aria-label="view questions">
           View questions
         </ToggleButton>
@@ -115,8 +126,10 @@ function App() {
           goBack={() => setFormType("view")}
           selectedQuestion={selectedQuestion}
           onUpdateSuccess={(updatedQuestion) => {
-            setQuestionList(prevList => 
-              prevList.map(q => (q._id === updatedQuestion._id ? updatedQuestion : q))
+            setQuestionList((prevList) =>
+              prevList.map((q) =>
+                q._id === updatedQuestion._id ? updatedQuestion : q
+              )
             );
           }}
           onDeleteSuccess={handleDeleteSuccess}
