@@ -10,7 +10,6 @@ import { Link as RouterLink } from "react-router-dom";
 import { ReactComponent as Logo } from "./assets/logo.svg";
 import { ReactComponent as Background } from "./assets/background.svg";
 import "./style/login.css";
-import { red } from "@mui/material/colors";
 
 function Login() {
   return (
@@ -43,7 +42,6 @@ function Login() {
       </Box>
       <Box
         sx={{
-          border: "1px solid red",
           position: "relative",
         }}
       >
@@ -57,6 +55,10 @@ function Login() {
 
         <Box
           sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
             zIndex: 2,
           }}
         >
