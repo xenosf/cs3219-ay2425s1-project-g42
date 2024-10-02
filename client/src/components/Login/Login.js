@@ -6,26 +6,83 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { ReactComponent as Logo } from "./assets/logo.svg";
 import { ReactComponent as Background } from "./assets/background.svg";
 import "./style/login.css";
+import axios from "axios";
+import React, { useState} from "react";
+import Alert from '@mui/material/Alert';
+import Cookies from 'universal-cookie';
+
 
 function Login() {
+
+  const [emailError, setEmailError] = useState(false);
+  const [invalidEmailError, setInvalidEmailError] = useState(false);
+  const [missingFields, setMissingFields] = useState(false);
+  const [databaseError, setDatabaseError] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  let navigate = useNavigate();
+
+
+  const handleLogin = async () => {
+    if (!email.includes("@")) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+      const body = {
+        "email": email,
+        "password": password
+      }
+      try {
+        const response = await axios.post(`http://localhost:3001/auth/login`, body);
+        if (response.status === 200) {
+          const cookies = new Cookies();
+          cookies.set('accessToken', response.data.data.accessToken, { path: '/' });
+          navigate('/questionpage', { replace: true });
+          window.location.reload();
+        }
+        
+      } catch(error) {
+        setMissingFields(false);
+        setInvalidEmailError(false);
+        setDatabaseError(false);
+        if (error.status === 400) {
+          setMissingFields(true);
+        }
+        if (error.status === 401) {
+          setInvalidEmailError(true);
+        }
+        if (error.status === 500) {
+          setDatabaseError(true);
+        }
+      }
+  }
+    
+
+  }
   return (
+    <div>
+      {invalidEmailError && <Alert severity="error">Incorrect email or password!</Alert>}
+      {missingFields && <Alert severity="error">Missing fields!</Alert>}
+      {databaseError && <Alert severity="error">DatabaseError!</Alert>}
     <Container id="login-container">
-      <Box id="login-box">
-        <Box sx={{ fontSize: "2rem", fontWeight: "bold", fontWeight: 500 }}>
+      <Box id="login-box">        
+        <Box sx={{ fontSize: "2rem", fontWeight: "bold" }} >
           LOGIN
         </Box>
-        <TextField label="Email" className="login-input" />
-        <TextField label="Password" className="login-input" />
+        <TextField label="Email" required error={emailError} helperText={emailError ? "Please enter a valid email" : ""} className="login-input" onChange={(e) => setEmail(e.target.value)}/>
+        <TextField label="Password" type="password" required className="login-input" onChange={(e) => setPassword(e.target.value)}/>
         <Box id="login-footer">
           <Link component={RouterLink} to="/">
             Forgot your password?
           </Link>
           <RouterLink>
-            <Button variant="contained" id="login-button">
+            <Button variant="contained" id="login-button" onClick = {handleLogin}>
               Login
             </Button>
           </RouterLink>
@@ -33,7 +90,7 @@ function Login() {
             Don't have an account?
             <Typography variant="body2">
               Sign up{" "}
-              <Link component={RouterLink} to="/">
+              <Link component={RouterLink} to="/signup">
                 here
               </Link>
             </Typography>
@@ -66,7 +123,9 @@ function Login() {
         </Box>
       </Box>
     </Container>
+    </div>
   );
+  
 }
 
 export default Login;
