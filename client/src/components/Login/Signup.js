@@ -2,9 +2,7 @@ import {
     Box,
     Button,
     Container,
-    Link,
     TextField,
-    Typography,
   } from "@mui/material";
   import { Link as RouterLink, useNavigate } from "react-router-dom";
   import { ReactComponent as Logo } from "../../assets/logo.svg";
@@ -71,7 +69,7 @@ import {
             {databaseError && <Alert severity="error">Database or server error!</Alert>}
       <Container id="login-container">
         <Box id="login-box">
-          <Box sx={{ fontSize: "2rem", fontWeight: "bold", fontWeight: 500 }} >
+          <Box sx={{ fontSize: "2rem", fontWeight: 500 }} >
             SIGNUP
           </Box>
           <TextField label="Username" required className="login-input" onChange={(e) => setUsername(e.target.value)}/>

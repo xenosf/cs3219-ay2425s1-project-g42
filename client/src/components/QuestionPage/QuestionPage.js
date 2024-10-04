@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 import "./QuestionPage.css";
 import AddQuestionForm from "../AddQuestion/AddQuestionForm";
 import UpdateQuestionForm from "../UpdateQuestion/UpdateQuestionForm";
-import Header from "../Header/Header";
 
 function QuestionPage() {
     const [questionList, setQuestionList] = useState("");
@@ -102,7 +101,6 @@ function QuestionPage() {
   
     return (
       <div className="App">
-        <Header/>
         <ToggleButtonGroup
           value={formType}
           exclusive

@@ -1,12 +1,13 @@
+import axios from "axios";
+import Cookies from "js-cookie";
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Login from "../components/Login/Login";
-import QuestionPage from "../components/QuestionPage/QuestionPage";
-import Signup from "../components/Login/Signup";
-import ProtectedRoute from "./ProtectedRoute";
-import Cookies from "js-cookie";
-import axios from "axios";
 import Logout from "../components/Login/Logout";
+import Signup from "../components/Login/Signup";
+import QuestionPage from "../components/QuestionPage/QuestionPage";
+import AuthRedirect from "./AuthRedirect";
+import ProtectedRoute from "./ProtectedRoute";
 
 // Function to get the access token from cookies
 const getAccessToken = () => {
@@ -41,27 +42,33 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    children: [
+      {
+        element: <ProtectedRoute isAuthenticated={await isAuthenticated()} />,
+        children: [
+          {
+            index: true,
+            element: <QuestionPage />,
+          },
+        ],
+      },
+    ],
   },
   {
-    path: "/login",
-    element: <Login />,
+    element: <AuthRedirect isAuthenticated={await isAuthenticated()} />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+    ],
   },
   {
     path: "/logout",
     element: <Logout />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-
-  {
-    element: <ProtectedRoute isAuthenticated={await isAuthenticated()} />,
-    children: [
-      {
-        path: "/questionpage",
-        element: <QuestionPage />,
-      },
-    ],
   },
 ]);

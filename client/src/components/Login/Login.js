@@ -45,7 +45,7 @@ function Login() {
           cookies.set("accessToken", response.data.data.accessToken, {
             path: "/",
           });
-          navigate("/questionpage", { replace: true });
+          navigate("/", { replace: true });
           window.location.reload();
         }
       } catch (error) {
@@ -102,15 +102,15 @@ function Login() {
                 Login
               </Button>
             </RouterLink>
-            <Typography variant="body2" id="login-to-register">
-              Don't have an account?
+            <Box id="login-to-register">
+              <Typography variant="body2">Don't have an account?</Typography>
               <Typography variant="body2">
                 Sign up{" "}
                 <Link component={RouterLink} to="/signup">
                   here
                 </Link>
               </Typography>
-            </Typography>
+            </Box>
           </Box>
         </Box>
         <Box
