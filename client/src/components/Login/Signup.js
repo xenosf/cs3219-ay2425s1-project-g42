@@ -7,8 +7,8 @@ import {
     Typography,
   } from "@mui/material";
   import { Link as RouterLink, useNavigate } from "react-router-dom";
-  import { ReactComponent as Logo } from "./assets/logo.svg";
-  import { ReactComponent as Background } from "./assets/background.svg";
+  import { ReactComponent as Logo } from "../../assets/logo.svg";
+  import { ReactComponent as Background } from "../../assets/background.svg";
   import "./style/login.css";
   import axios from "axios";
   import React, { useState} from "react";
