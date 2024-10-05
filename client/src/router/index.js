@@ -1,5 +1,6 @@
 import axios from "axios";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
+import Cookies from "universal-cookie";
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Login from "../components/Login/Login";
@@ -11,7 +12,8 @@ import ProtectedRoute from "./ProtectedRoute";
 
 // Function to get the access token from cookies
 const getAccessToken = () => {
-  return Cookies.get("accessToken");
+  const cookies = new Cookies()
+  return cookies.get("accessToken");
 };
 
 // Function to check if the user is authenticated

@@ -30,6 +30,7 @@ function QuestionPage() {
     };
   
     useEffect(() => {
+      console.log("trying to fetch questions")
       fetchQuestions();
     }, []);
   
