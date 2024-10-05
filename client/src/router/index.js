@@ -10,43 +10,13 @@ import QuestionPage from "../components/QuestionPage/QuestionPage";
 import AuthRedirect from "./AuthRedirect";
 import ProtectedRoute from "./ProtectedRoute";
 
-// Function to get the access token from cookies
-const getAccessToken = () => {
-  const cookies = new Cookies()
-  return cookies.get("accessToken");
-};
-
-// Function to check if the user is authenticated
-const isAuthenticated = async () => {
-  try {
-    const response = await axios.get(
-      "http://localhost:3001/auth/verify-token",
-      {
-        headers: {
-          Authorization: `Bearer ` + getAccessToken(),
-        },
-      }
-    );
-    console.log(response);
-    if (response.status === 200) {
-      return true;
-    }
-  } catch (error) {
-    if (error.status === 401 || error.status === 500) {
-      return false;
-    }
-  }
-
-  return false;
-};
-
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
       {
-        element: <ProtectedRoute isAuthenticated={await isAuthenticated()} />,
+        element: <ProtectedRoute />,
         children: [
           {
             index: true,
@@ -57,7 +27,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    element: <AuthRedirect isAuthenticated={await isAuthenticated()} />,
+    element: <AuthRedirect />,
     children: [
       {
         path: "/login",
