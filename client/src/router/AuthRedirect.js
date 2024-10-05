@@ -6,7 +6,6 @@ const AuthRedirect = () => {
   const { isAuthenticated, checkIsAuthenticated } = useAuth();
 
   useEffect(() => {
-    console.log('re-render auth')
     checkIsAuthenticated();
   }, [checkIsAuthenticated]);
 

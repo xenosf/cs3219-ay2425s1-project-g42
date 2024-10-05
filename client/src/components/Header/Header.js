@@ -9,7 +9,6 @@ function Header() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('re-render header')
     const authenticate = async () => {
       await checkIsAuthenticated();
       setLoading(false); 
