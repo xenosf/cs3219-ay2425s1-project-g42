@@ -1,18 +1,17 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
+import { useAuth } from "../../hooks/useAuth";
 
 function Logout() {
   const navigate = useNavigate();
+  const {logout} = useAuth()
 
   useEffect(() => {
-    const cookies = new Cookies();
-    cookies.remove("accessToken", { path: "/" });
+    logout()
     navigate("/login", { replace: true });
-    window.location.reload();
   }, [navigate]);
 
-  return;
+  return null;
 }
 
 export default Logout;

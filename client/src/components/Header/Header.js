@@ -1,52 +1,28 @@
-import { Button } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import { Button, CircularProgress  } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
-import axios from "axios";
 import "./style/header.css";
+import { useAuth } from "../../hooks/useAuth";
 
 function Header() {
-  const [authenticated, setAuthenticated] = useState(false);
+  const { isAuthenticated, checkIsAuthenticated } = useAuth();
+  const [loading, setLoading] = useState(true);
 
-  // Function to get the access token from cookies
-  const getAccessToken = () => {
-    return Cookies.get("accessToken");
-  };
-
-  // Function to check if the user is authenticated
-  const isAuthenticated = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:3001/auth/verify-token",
-        {
-          headers: {
-            Authorization: `Bearer ` + getAccessToken(),
-          },
-        }
-      );
-      if (response.status === 200) {
-        setAuthenticated(true);
-      }
-    } catch (error) {
-      if (
-        error.response &&
-        (error.response.status === 401 || error.response.status === 500)
-      ) {
-        setAuthenticated(false);
-      }
-    }
-  };
-
-  // Run authentication check when component mounts
   useEffect(() => {
-    isAuthenticated();
-  });
+    const authenticate = async () => {
+      await checkIsAuthenticated();
+      setLoading(false); 
+    };
+    authenticate();
+  }, []);
 
   return (
     <div id="landing-header">
       <h1>PeerPrep</h1>
       <div id="button-header">
-        {authenticated ? (
+        {loading ? (
+          <CircularProgress />
+        ) : isAuthenticated ? (
           <Link to="/logout">
             <Button variant="contained">Logout</Button>
           </Link>

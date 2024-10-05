@@ -1,12 +1,15 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
-const AuthRedirect = ({ isAuthenticated }) => {
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
+const AuthRedirect = () => {
+  const { isAuthenticated, checkIsAuthenticated } = useAuth();
 
-  return <Outlet />;
+  useEffect(() => {
+    checkIsAuthenticated();
+  }, []);
+
+  return <>{isAuthenticated ? <Navigate to="/" replace /> : <Outlet />}</>;
 };
 
 export default AuthRedirect;
