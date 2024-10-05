@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import { AuthContext, useAuth } from "../hooks/useAuth";
 
 function AuthProvider({ children }) {
-  const auth = useAuth()
+  const auth = useAuth();
 
   const [isAuthenticated, setIsAuthenticated] = useState(auth.isAuthenticated);
   const [accessToken, setAccessToken] = useState(auth.accessToken);
 
-  const checkIsAuthenticated = async () => {
+  const checkIsAuthenticated = useCallback(async () => {
     try {
       const token = auth.getAccessToken();
 
@@ -17,7 +17,6 @@ function AuthProvider({ children }) {
         setIsAuthenticated(false);
         return;
       }
-      console.log("calling api")
       const response = await axios.get(
         "http://localhost:3001/auth/verify-token",
         {
@@ -38,14 +37,14 @@ function AuthProvider({ children }) {
         setIsAuthenticated(false);
       }
     }
-  };
+  }, [auth]);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     const cookies = new Cookies();
     cookies.remove("accessToken", { path: "/" });
     setIsAuthenticated(false);
     setAccessToken("");
-  };
+  }, []);
 
   // NOTE: currently need manual check.
   // Auto check might have async issues

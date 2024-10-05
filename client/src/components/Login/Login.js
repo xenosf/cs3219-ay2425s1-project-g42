@@ -6,14 +6,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { ReactComponent as Logo } from "../../assets/logo.svg";
-import { ReactComponent as Background } from "../../assets/background.svg";
-import "./style/login.css";
+import Alert from "@mui/material/Alert";
 import axios from "axios";
 import React, { useState } from "react";
-import Alert from "@mui/material/Alert";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { ReactComponent as Background } from "../../assets/background.svg";
+import { ReactComponent as Logo } from "../../assets/logo.svg";
+import "./style/login.css";
 
 function Login() {
   const [emailError, setEmailError] = useState(false);
@@ -89,7 +89,7 @@ function Login() {
             className="login-input"
             onChange={(e) => setPassword(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key == "Enter") {
+              if (e.key === "Enter") {
                 handleLogin();
               }
             }}

@@ -1,6 +1,3 @@
-import axios from "axios";
-//import Cookies from "js-cookie";
-import Cookies from "universal-cookie";
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Login from "../components/Login/Login";

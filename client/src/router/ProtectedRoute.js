@@ -3,11 +3,12 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 const ProtectedRoute = () => {
-  const {isAuthenticated, checkIsAuthenticated} = useAuth();
+  const { isAuthenticated, checkIsAuthenticated } = useAuth();
 
   useEffect(() => {
+    console.log('re-render proct')
     checkIsAuthenticated();
-  }, []);
+  }, [checkIsAuthenticated]);
 
   return (
     <>

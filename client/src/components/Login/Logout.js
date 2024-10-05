@@ -7,9 +7,10 @@ function Logout() {
   const {logout} = useAuth()
 
   useEffect(() => {
+    console.log('re-render')
     logout()
     navigate("/login", { replace: true });
-  }, [navigate]);
+  }, [navigate, logout]);
 
   return null;
 }
