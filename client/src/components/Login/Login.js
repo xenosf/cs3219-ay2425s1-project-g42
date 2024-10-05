@@ -95,9 +95,6 @@ function Login() {
             }}
           />
           <Box id="login-footer">
-            <Link component={RouterLink} to="/">
-              Forgot your password?
-            </Link>
             <RouterLink>
               <Button
                 variant="contained"
