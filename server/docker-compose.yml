@@ -1,0 +1,10 @@
+services:
+  user:
+    build: ./user-service
+    ports:
+      - 3001:3001
+
+  questions:
+    build: ./question-service
+    ports:
+      - 3002:3002

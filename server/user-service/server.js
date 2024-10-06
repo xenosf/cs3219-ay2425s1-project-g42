@@ -8,12 +8,12 @@ const port = process.env.PORT || 3001;
 const server = http.createServer(index);
 
 await connectToDB().then(() => {
-  console.log("MongoDB Connected!");
+  console.log("User service connected to MongoDB");
 
   server.listen(port);
-  console.log("User service server listening on http://localhost:" + port);
+  console.log("User service is listening on port " + port);
 }).catch((err) => {
-  console.error("Failed to connect to DB");
+  console.error("User service failed to connect to DB");
   console.error(err);
 });
 
