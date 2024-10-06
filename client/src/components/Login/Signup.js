@@ -11,6 +11,7 @@ import {
   import axios from "axios";
   import React, { useState} from "react";
   import Alert from '@mui/material/Alert';
+import { SVC_ENDPOINTS } from "../../consts/api";
   
   function Signup() {
 
@@ -38,7 +39,7 @@ import {
       }
     
       try {
-        const response = await axios.post(`http://localhost:3001/users`, body);
+        const response = await axios.post(`${SVC_ENDPOINTS.user}/users`, body);
 
         if (response.status === 201) {
             navigate('/login');

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import { AuthContext, useAuth } from "../hooks/useAuth";
+import { SVC_ENDPOINTS } from "../consts/api";
 
 function AuthProvider({ children }) {
   const auth = useAuth();
@@ -18,7 +19,7 @@ function AuthProvider({ children }) {
         return;
       }
       const response = await axios.get(
-        "http://localhost:3001/auth/verify-token",
+        `${SVC_ENDPOINTS.user}/auth/verify-token`,
         {
           headers: {
             Authorization: `Bearer ` + token,

@@ -14,6 +14,7 @@ import Cookies from "universal-cookie";
 import { ReactComponent as Background } from "../../assets/background.svg";
 import { ReactComponent as Logo } from "../../assets/logo.svg";
 import "./style/login.css";
+import { SVC_ENDPOINTS } from "../../consts/api";
 
 function Login() {
   const [emailError, setEmailError] = useState(false);
@@ -37,7 +38,7 @@ function Login() {
       };
       try {
         const response = await axios.post(
-          `http://localhost:3001/auth/login`,
+          `${SVC_ENDPOINTS.user}/auth/login`,
           body
         );
         if (response.status === 200) {
