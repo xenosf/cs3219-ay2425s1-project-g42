@@ -9,8 +9,8 @@ services:
       - ${PORT_USER}:${PORT_USER}
     environment:
       - ENV
-      - DB_CLOUD_URI
-      - DB_LOCAL_URI
+      - DB_CLOUD_URI=${DB_URI_USER}
+      - DB_LOCAL_URI=${DB_URI_USER}
       - JWT_SECRET
 
   questions:
@@ -23,5 +23,4 @@ services:
       - ${PORT_QUESTION}:${PORT_QUESTION}
     environment:
       - ENV
-      - DB_CLOUD_URI
-      - DB_LOCAL_URI
+      - DB_CLOUD_URI=${DB_URI_QUESTION}
