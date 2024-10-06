@@ -10,6 +10,7 @@ import {
   FormControl,
 } from "@mui/material";
 import axios from "axios";
+import { SVC_ENDPOINTS } from "../../consts/api";
 
 function AddQuestionForm(props) {
   const [error, setError] = useState(null);
@@ -44,7 +45,7 @@ function AddQuestionForm(props) {
     setNewQuestion(null)
 
     axios
-      .post("http://localhost:3002/questions/add", qn)
+      .post(`${SVC_ENDPOINTS.question}/questions/add`, qn)
       .then(function (response) {
         setNewQuestion(response.data);
         resetFormFields();

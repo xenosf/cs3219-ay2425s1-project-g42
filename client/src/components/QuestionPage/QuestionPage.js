@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import "./QuestionPage.css";
 import AddQuestionForm from "../AddQuestion/AddQuestionForm";
 import UpdateQuestionForm from "../UpdateQuestion/UpdateQuestionForm";
+import { SVC_ENDPOINTS } from "../../consts/api";
 
 function QuestionPage() {
     const [questionList, setQuestionList] = useState("");
@@ -22,7 +23,7 @@ function QuestionPage() {
   
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/questions");
+        const response = await axios.get(`${SVC_ENDPOINTS.question}/questions`);
         setQuestionList(response.data);
       } catch (error) {
         console.error("Error fetching questions", error);

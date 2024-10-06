@@ -11,6 +11,7 @@ import {
   Alert
 } from "@mui/material";
 import axios from "axios";
+import { SVC_ENDPOINTS } from "../../consts/api";
 
 function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess, onDeleteSuccess }) {
   const [error, setError] = useState(null);
@@ -43,7 +44,7 @@ function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess, onDelet
 
     try {
       const response = await axios.put(
-        `http://localhost:3002/questions/${selectedQuestion._id}`,
+        `${SVC_ENDPOINTS.question}/questions/${selectedQuestion._id}`,
         updatedQuestion
       );
 
@@ -63,7 +64,7 @@ function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess, onDelet
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`http://localhost:3002/questions/${selectedQuestion._id}`);
+      const response = await axios.delete(`${SVC_ENDPOINTS.question}/questions/${selectedQuestion._id}`);
       
       if (response.status === 200) {
         onDeleteSuccess(selectedQuestion._id);
