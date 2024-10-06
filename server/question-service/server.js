@@ -17,12 +17,13 @@ const port = process.env.PORT || 3002;
 mongoose
     .connect(process.env.DB_CLOUD_URI)
     .then(() => {
-        console.log("Connected to MongoDB");
+        console.log("Question service connected to MongoDB");
         app.listen(port, () => {
-            console.log(`Node API app is running on port ${port}`);
+            console.log("Question service is listening on port " + port);
         });
     })
     .catch((error) => {
+        console.error("Question service failed to connect to DB");
         console.log(error);
     });
 
