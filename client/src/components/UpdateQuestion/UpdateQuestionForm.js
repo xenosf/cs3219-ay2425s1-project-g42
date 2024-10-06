@@ -43,7 +43,7 @@ function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess, onDelet
 
     try {
       const response = await axios.put(
-        `http://localhost:8000/questions/${selectedQuestion._id}`,
+        `http://localhost:3002/questions/${selectedQuestion._id}`,
         updatedQuestion
       );
 
@@ -63,7 +63,7 @@ function UpdateQuestionForm({ goBack, selectedQuestion, onUpdateSuccess, onDelet
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`http://localhost:8000/questions/${selectedQuestion._id}`);
+      const response = await axios.delete(`http://localhost:3002/questions/${selectedQuestion._id}`);
       
       if (response.status === 200) {
         onDeleteSuccess(selectedQuestion._id);

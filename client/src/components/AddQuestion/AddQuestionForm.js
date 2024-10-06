@@ -44,7 +44,7 @@ function AddQuestionForm(props) {
     setNewQuestion(null)
 
     axios
-      .post("http://localhost:8000/questions/add", qn)
+      .post("http://localhost:3002/questions/add", qn)
       .then(function (response) {
         setNewQuestion(response.data);
         resetFormFields();
